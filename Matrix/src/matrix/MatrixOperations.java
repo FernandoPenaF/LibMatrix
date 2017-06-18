@@ -19,6 +19,10 @@ public class MatrixOperations {
         return matrix.getRowsLength() == matrix.getColumnsLength();
     }
     
+    public static boolean isMultiplicable(Matrix A, Matrix B){
+        return A.getColumnsLength() == B.getRowsLength();
+    }
+    
     /*
     Si la matriz es cuadrada, devuelve su traza.
     */
@@ -99,22 +103,41 @@ public class MatrixOperations {
             throw new ArithmeticException("The matrices are not the same size.");
     }
     
-//    public static void main(String[] args) {
-//        Matrix m1 = new Matrix(2, 2);
-//        m1.setValue(2, 1, 1);
-//        m1.setValue(3, 1, 2);
-//        m1.setValue(8, 2, 1);
-//        m1.setValue(9, 2, 2);
-//        m1.print();
-//        System.out.println("");
-//        Matrix m2 = new Matrix(2, 2);
-//        m2.setValue(-2, 1, 1);
-//        m2.setValue(3, 1, 2);
-//        m2.setValue(-8, 2, 1);
-//        m2.setValue(9, 2, 2);
-//        m2.print();
-//        System.out.println("");
-//        Matrix sum = MatrixOperations.substraction(m1, m2);
-//        sum.print();
-//    }
+    public static Matrix multiplicacion(Matrix A, Matrix B){
+        if(isMultiplicable(A, B)){
+            int rowLenA = A.getRowsLength();
+            int rowLenB = B.getRowsLength();
+            int columnLenB = B.getColumnsLength();
+            Matrix resul = new Matrix(rowLenA, columnLenB);
+            
+            for (int i = 0; i < rowLenA; i++) {
+                for (int j = 0; j < columnLenB; j++) {
+                    float value = 0;
+                    for (int k = 0; k < rowLenB; k++) {
+                        value += A.getMatrixValue(i, k) * B.getMatrixValue(k, j);
+                    }
+                    resul.insertValue(value, i, j);
+                }
+            }
+            return resul;
+        }else
+            throw new ArithmeticException("The columns of matrix A do not match the rows of matrix B.");
+    }
+    
+    public static void main(String[] args) {
+        Matrix m1 = new Matrix(2, 2);
+        m1.setValue(2, 1, 1);
+        m1.setValue(3, 1, 2);
+        m1.setValue(8, 2, 1);
+        m1.setValue(9, 2, 2);
+        m1.print();
+        System.out.println("");
+        Matrix m2 = new Matrix(2, 1);
+        m2.setValue(2, 1, 1);
+        m2.setValue(8, 2, 1);
+        m2.print();
+        System.out.println("");
+        Matrix mul = MatrixOperations.multiplicacion(m1, m2);
+        mul.print();
+    }
 }
