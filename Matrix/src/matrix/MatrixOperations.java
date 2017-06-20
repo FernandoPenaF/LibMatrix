@@ -22,8 +22,8 @@ public class MatrixOperations {
         return matrix.getRowsLength() == matrix.getColumnsLength();
     }
     
-    public static boolean is2x2(Matrix matrix){
-        if(matrix.getRowsLength() == matrix.getColumnsLength() && matrix.getRowsLength() == 2)
+    public static boolean isUnitaryMatrix(Matrix matrix){
+        if(matrix.getRowsLength() == matrix.getColumnsLength() && matrix.getRowsLength() == 1)
             return true;
         return false;
     }
@@ -112,7 +112,7 @@ public class MatrixOperations {
             throw new ArithmeticException("The matrices are not the same size.");
     }
     
-    public static Matrix multiplicacion(Matrix A, Matrix B){
+    public static Matrix multiplication(Matrix A, Matrix B){
         if(isMultiplicable(A, B)){
             int rowLenA = A.getRowsLength();
             int rowLenB = B.getRowsLength();
@@ -133,23 +133,23 @@ public class MatrixOperations {
             throw new ArithmeticException("The columns of matrix A do not match the rows of matrix B.");
     }
     
-    public static float getDeterminante(Matrix matrix){
-        if(isNxN(matrix)){ //Si la matriz es de N x N se procede con su cálculo.
-            if(is2x2(matrix)) //Si la matriz es de 2 x 2 se devuelve su valor. (Caso base)
-                return getDeterminante2x2(matrix);
+    public static float getDeterminant(Matrix matrix){
+        if(isNxN(matrix)){ //Si la matriz es cuadrada se procede con el cálculo de su determinante.
+            if(isUnitaryMatrix(matrix)) //Si la matriz es de 1 x 1 se devuelve el valor de su determinante. (Caso base)
+                return getUnitaryDeterminant(matrix);
             else{
                 Queue <Matrix> menores = getMenores(matrix); //Se obtienen los menores correspondientes a la matriz.
                 float resul = 0;
-                int signCoefficient = -1;
-                int index = 0;
+                int coefficientSign = -1;
+                int coefficientIndex = 0;
                 
                 /*
                 Se calcula el determinante de cada menor, es decir,
                 su determinante por su respectivo coefficiente con cambio de signo.
                 */
                 while(!menores.isEmpty()) {
-                    resul += (Math.pow(signCoefficient, index) * matrix.getMatrixValue(0, index)) * getDeterminante(menores.remove());
-                    index++;
+                    resul += (Math.pow(coefficientSign, coefficientIndex) * matrix.getMatrixValue(0, coefficientIndex)) * getDeterminant(menores.remove());
+                    coefficientIndex++;
                 }
                 return resul;
             }
@@ -158,13 +158,13 @@ public class MatrixOperations {
     }
     
     /*
-    Devuelve el valor del determinantes de una matrix de 2 x 2
+    Devuelve el valor del determinantes de una matrix de 1 x 1
     */
-    private static float getDeterminante2x2(Matrix matrix){
-        if(is2x2(matrix))
-            return (matrix.getMatrixValue(0, 0) * matrix.getMatrixValue(1, 1)) - (matrix.getMatrixValue(0, 1) * matrix.getMatrixValue(1, 0));
+    private static float getUnitaryDeterminant(Matrix matrix){
+        if(isUnitaryMatrix(matrix))
+            return matrix.getMatrixValue(0, 0);
         else
-            throw new ArithmeticException("Matrix is not 2 by 2.");
+            throw new ArithmeticException("The matrix is not 1 x 1.");
     }
     
     /*
@@ -173,19 +173,19 @@ public class MatrixOperations {
     Dichos menores son regresados en el orden de cola
     1, 2, 3, ... , n
     */
-    public static Queue <Matrix> getMenores(Matrix matrix){
+    private static Queue <Matrix> getMenores(Matrix matrix){
         Queue <Matrix> menores = new LinkedList();
         int columnLen = matrix.getColumnsLength();
         int rowLen = matrix.getRowsLength();
         
         for (int i = 0; i < columnLen; i++) {
             Matrix menor = new Matrix(rowLen - 1, columnLen - 1); //Se instancia la matriz menor con el tamaño adecuado.
-            int columnInsertIndex = 0; //Indice para insertar en la columna respectiva.
+            int columnInsertIndex = 0; //Indice para insertar datos en la columna respectiva, iniciando desde 0.
             
             for (int j = 0; j < columnLen; j++) {
                 if(j == i) //Si estoy en la columna de mi valor menor entonces no se inserta a la matriz menor.
                     continue;
-                for (int k = 1; k < rowLen; k++) {
+                for (int k = 1; k < rowLen; k++) { //Se omite la columna de coeficientes de los menores.
                     float value = matrix.getMatrixValue(k, j);
                     menor.insertValue(value, k - 1, columnInsertIndex);
                 }
@@ -197,6 +197,16 @@ public class MatrixOperations {
     }
     
     public static void main(String[] args) {
+        Matrix m0 = new Matrix(2, 2);
+        m0.setValue(2, 1, 1);
+        m0.setValue(2, 1, 2);
+        m0.setValue(3, 2, 1);
+        m0.setValue(5, 2, 2);
+        m0.print();
+        System.out.println("");
+        System.out.println(MatrixOperations.getDeterminant(m0));
+        System.out.println("");
+        
         Matrix m1 = new Matrix(4, 4);
         m1.setValue(2, 1, 1);
         m1.setValue(3, 1, 2);
@@ -216,6 +226,6 @@ public class MatrixOperations {
         m1.setValue(3, 4, 4);
         m1.print();
         System.out.println("");
-        System.out.println(MatrixOperations.getDeterminante(m1));
+        System.out.println(MatrixOperations.getDeterminant(m1));
     }
 }
