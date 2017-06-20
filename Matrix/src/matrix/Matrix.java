@@ -50,6 +50,24 @@ public class Matrix {
             throw new IndexOutOfBoundsException(row + " " + column);
     }
     
+    /*
+    Devuelve la matriz traspuesta.
+    */
+    public Matrix getTraspose(){
+        int rowLen = this.getRowsLength();
+        int columnLen = this.getColumnsLength();
+        Matrix traspose = new Matrix(columnLen, rowLen);
+        
+        for (int i = 0; i < rowLen; i++) {
+            for (int j = 0; j < columnLen; j++) {
+                float value = this.getMatrixValue(i, j);
+                
+                traspose.insertValue(value, j, i);
+            }
+        }
+        return traspose;
+    }
+    
     @Override
     public String toString(){
         String output = "";

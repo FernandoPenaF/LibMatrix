@@ -197,17 +197,18 @@ public class MatrixOperations {
     }
     
     public static void main(String[] args) {
-        Matrix m0 = new Matrix(2, 2);
-        m0.setValue(2, 1, 1);
-        m0.setValue(2, 1, 2);
-        m0.setValue(3, 2, 1);
-        m0.setValue(5, 2, 2);
-        m0.print();
-        System.out.println("");
-        System.out.println(MatrixOperations.getDeterminant(m0));
-        System.out.println("");
+//        Matrix m0 = new Matrix(2, 2);
+//        m0.setValue(2, 1, 1);
+//        m0.setValue(2, 1, 2);
+//        m0.setValue(3, 2, 1);
+//        m0.setValue(5, 2, 2);
+//        m0.print();
+//        System.out.println("");
+//        System.out.println(MatrixOperations.getDeterminant(m0));
+//        System.out.println("");
         
         Matrix m1 = new Matrix(4, 4);
+        Matrix mt;
         m1.setValue(2, 1, 1);
         m1.setValue(3, 1, 2);
         m1.setValue(3, 1, 3);
@@ -224,8 +225,12 @@ public class MatrixOperations {
         m1.setValue(23, 4, 2);
         m1.setValue(2, 4, 3);
         m1.setValue(3, 4, 4);
+        mt = m1.getTraspose();
         m1.print();
         System.out.println("");
+        mt.print();
+        System.out.println("");
         System.out.println(MatrixOperations.getDeterminant(m1));
+        System.out.println(MatrixOperations.getDeterminant(mt));
     }
 }
