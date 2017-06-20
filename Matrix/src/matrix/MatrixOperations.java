@@ -5,6 +5,9 @@
  */
 package matrix;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
  *
  * @author Fernando Peña
@@ -17,6 +20,12 @@ public class MatrixOperations {
     
     public static boolean isNxN(Matrix matrix){
         return matrix.getRowsLength() == matrix.getColumnsLength();
+    }
+    
+    public static boolean is2x2(Matrix matrix){
+        if(matrix.getRowsLength() == matrix.getColumnsLength() && matrix.getRowsLength() == 2)
+            return true;
+        return false;
     }
     
     public static boolean isMultiplicable(Matrix A, Matrix B){
@@ -124,20 +133,89 @@ public class MatrixOperations {
             throw new ArithmeticException("The columns of matrix A do not match the rows of matrix B.");
     }
     
+    public static float getDeterminante(Matrix matrix){
+        if(isNxN(matrix)){ //Si la matriz es de N x N se procede con su cálculo.
+            if(is2x2(matrix)) //Si la matriz es de 2 x 2 se devuelve su valor. (Caso base)
+                return getDeterminante2x2(matrix);
+            else{
+                Queue <Matrix> menores = getMenores(matrix); //Se obtienen los menores correspondientes a la matriz.
+                float resul = 0;
+                int signCoefficient = -1;
+                int index = 0;
+                
+                /*
+                Se calcula el determinante de cada menor, es decir,
+                su determinante por su respectivo coefficiente con cambio de signo.
+                */
+                while(!menores.isEmpty()) {
+                    resul += (Math.pow(signCoefficient, index) * matrix.getMatrixValue(0, index)) * getDeterminante(menores.remove());
+                    index++;
+                }
+                return resul;
+            }
+        }else
+            throw new ArithmeticException("Matrix is not square.");
+    }
+    
+    /*
+    Devuelve el valor del determinantes de una matrix de 2 x 2
+    */
+    private static float getDeterminante2x2(Matrix matrix){
+        if(is2x2(matrix))
+            return (matrix.getMatrixValue(0, 0) * matrix.getMatrixValue(1, 1)) - (matrix.getMatrixValue(0, 1) * matrix.getMatrixValue(1, 0));
+        else
+            throw new ArithmeticException("Matrix is not 2 by 2.");
+    }
+    
+    /*
+    Regresa una cola que contiene los menores de la matriz de n x n
+    respecto a los elementos de la primera fila.
+    Dichos menores son regresados en el orden de cola
+    1, 2, 3, ... , n
+    */
+    public static Queue <Matrix> getMenores(Matrix matrix){
+        Queue <Matrix> menores = new LinkedList();
+        int columnLen = matrix.getColumnsLength();
+        int rowLen = matrix.getRowsLength();
+        
+        for (int i = 0; i < columnLen; i++) {
+            Matrix menor = new Matrix(rowLen - 1, columnLen - 1); //Se instancia la matriz menor con el tamaño adecuado.
+            int columnInsertIndex = 0; //Indice para insertar en la columna respectiva.
+            
+            for (int j = 0; j < columnLen; j++) {
+                if(j == i) //Si estoy en la columna de mi valor menor entonces no se inserta a la matriz menor.
+                    continue;
+                for (int k = 1; k < rowLen; k++) {
+                    float value = matrix.getMatrixValue(k, j);
+                    menor.insertValue(value, k - 1, columnInsertIndex);
+                }
+                columnInsertIndex++; //Se aumenta el indice de columna de inserción.
+            }
+            menores.add(menor); //Se añade el menor correspondiente a la cola de menores.
+        }
+        return menores;
+    }
+    
     public static void main(String[] args) {
-        Matrix m1 = new Matrix(2, 2);
+        Matrix m1 = new Matrix(4, 4);
         m1.setValue(2, 1, 1);
         m1.setValue(3, 1, 2);
-        m1.setValue(8, 2, 1);
-        m1.setValue(9, 2, 2);
+        m1.setValue(3, 1, 3);
+        m1.setValue(6, 1, 4);
+        m1.setValue(2, 2, 1);
+        m1.setValue(3, 2, 2);
+        m1.setValue(6, 2, 3);
+        m1.setValue(7, 2, 4);
+        m1.setValue(4, 3, 1);
+        m1.setValue(82, 3, 2);
+        m1.setValue(0, 3, 3);
+        m1.setValue(3, 3, 4);
+        m1.setValue(2, 4, 1);
+        m1.setValue(23, 4, 2);
+        m1.setValue(2, 4, 3);
+        m1.setValue(3, 4, 4);
         m1.print();
         System.out.println("");
-        Matrix m2 = new Matrix(2, 1);
-        m2.setValue(2, 1, 1);
-        m2.setValue(8, 2, 1);
-        m2.print();
-        System.out.println("");
-        Matrix mul = MatrixOperations.multiplicacion(m1, m2);
-        mul.print();
+        System.out.println(MatrixOperations.getDeterminante(m1));
     }
 }
