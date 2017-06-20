@@ -10,7 +10,7 @@ import java.util.Queue;
 
 /**
  *
- * @author Fernando Peña
+ * @author Peña Flores, Luis Fernando
  */
 public class MatrixOperations {
     
@@ -33,6 +33,39 @@ public class MatrixOperations {
     }
     
     /*
+    Dada una matriz, devuelve verdadero si esta es simétrica y falso en otro caso.
+    Hacer
+        return matrix.equals(matrix.getTraspose());
+    tomaría más tiempo por el cálculo de la traspuesta y la comparación entre ambas.
+    */
+    public static boolean isSimetric(Matrix matrix){
+        if(isNxN(matrix)){
+            int rowLen = matrix.getRowsLength();
+            int columnLen = matrix.getColumnsLength();
+            
+            for (int i = 0; i < rowLen; i++) {
+                for (int j = i + 1; j < columnLen; j++) {
+                    if(matrix.getMatrixValue(i, j) != matrix.getMatrixValue(j, i))
+                        return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+    
+    /*
+    Dada una matriz, devuelve verdadero si esta es antisimétrica y falso en otro caso.
+    Es decir, A (Traspuesta) = -A.
+    */
+    public static boolean isAntisimetric(Matrix matrix){
+        Matrix traspose = matrix.getTraspose();
+        Matrix negative = escalarMultiplication(matrix, -1);
+        
+        return traspose.equals(negative);
+    }
+    
+    /*
     Si la matriz es cuadrada, devuelve su traza.
     */
     public static float getTrace(Matrix matrix){
@@ -48,7 +81,7 @@ public class MatrixOperations {
     }
     
     /*
-    Multiplica la matriz dada por el escalar dado.
+    Se devuele la matriz multiplicada por el escalar dado.
     */
     public static Matrix escalarMultiplication(Matrix matrix, float escalar){
         int rowLen = matrix.getRowsLength();
@@ -67,7 +100,7 @@ public class MatrixOperations {
     
     /*
     Si la matriz A es del mismo tamaño que la matriz B,
-    devuelve la suma A + B
+    devuelve la matriz suma A + B
     */
     public static Matrix sum(Matrix A, Matrix B){
         if(isSameSize(A, B)){
@@ -89,7 +122,7 @@ public class MatrixOperations {
     
     /*
     Si la matriz A es del mismo tamaño que la matriz B,
-    devuelve la resta A - B.
+    devuelve la matriz resta A - B.
     Hacer
         return sum(A, escalarMultiplication(B, -1));
     tomaría más tiempo que solo hacer la suma de A y del simétrico de cada elemento de B
@@ -112,6 +145,10 @@ public class MatrixOperations {
             throw new ArithmeticException("The matrices are not the same size.");
     }
     
+    /*
+    Si las matrices son del tamaño adecuado
+    se regresa la matriz producto A * B
+    */
     public static Matrix multiplication(Matrix A, Matrix B){
         if(isMultiplicable(A, B)){
             int rowLenA = A.getRowsLength();
@@ -133,6 +170,9 @@ public class MatrixOperations {
             throw new ArithmeticException("The columns of matrix A do not match the rows of matrix B.");
     }
     
+    /*
+    Si la matriz es cuadrada regresa el valor de su determinante.
+    */
     public static float getDeterminant(Matrix matrix){
         if(isNxN(matrix)){ //Si la matriz es cuadrada se procede con el cálculo de su determinante.
             if(isUnitaryMatrix(matrix)) //Si la matriz es de 1 x 1 se devuelve el valor de su determinante. (Caso base)
@@ -158,7 +198,7 @@ public class MatrixOperations {
     }
     
     /*
-    Devuelve el valor del determinantes de una matrix de 1 x 1
+    Devuelve el valor del determinante de una matrix de 1 x 1
     */
     private static float getUnitaryDeterminant(Matrix matrix){
         if(isUnitaryMatrix(matrix))
@@ -194,43 +234,5 @@ public class MatrixOperations {
             menores.add(menor); //Se añade el menor correspondiente a la cola de menores.
         }
         return menores;
-    }
-    
-    public static void main(String[] args) {
-//        Matrix m0 = new Matrix(2, 2);
-//        m0.setValue(2, 1, 1);
-//        m0.setValue(2, 1, 2);
-//        m0.setValue(3, 2, 1);
-//        m0.setValue(5, 2, 2);
-//        m0.print();
-//        System.out.println("");
-//        System.out.println(MatrixOperations.getDeterminant(m0));
-//        System.out.println("");
-        
-        Matrix m1 = new Matrix(4, 4);
-        Matrix mt;
-        m1.setValue(2, 1, 1);
-        m1.setValue(3, 1, 2);
-        m1.setValue(3, 1, 3);
-        m1.setValue(6, 1, 4);
-        m1.setValue(2, 2, 1);
-        m1.setValue(3, 2, 2);
-        m1.setValue(6, 2, 3);
-        m1.setValue(7, 2, 4);
-        m1.setValue(4, 3, 1);
-        m1.setValue(82, 3, 2);
-        m1.setValue(0, 3, 3);
-        m1.setValue(3, 3, 4);
-        m1.setValue(2, 4, 1);
-        m1.setValue(23, 4, 2);
-        m1.setValue(2, 4, 3);
-        m1.setValue(3, 4, 4);
-        mt = m1.getTraspose();
-        m1.print();
-        System.out.println("");
-        mt.print();
-        System.out.println("");
-        System.out.println(MatrixOperations.getDeterminant(m1));
-        System.out.println(MatrixOperations.getDeterminant(mt));
     }
 }

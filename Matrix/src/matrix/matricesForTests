@@ -1,0 +1,72 @@
+        /*
+            Sample matrices for any simple test.
+        */
+        Matrix m2 = new Matrix(2, 2);
+        m2.setValue(6, 1, 1);
+        m2.setValue(0, 1, 2);
+        m2.setValue(0, 2, 1);
+        m2.setValue(-14, 2, 2);
+        m2.print();
+        
+        Matrix m3 = new Matrix(3, 3);
+        m3.setValue(0, 1, 1);
+        m3.setValue(3, 1, 2);
+        m3.setValue(4, 1, 3);
+        m3.setValue(-3, 2, 1);
+        m3.setValue(0, 2, 2);
+        m3.setValue(-17, 2, 3);
+        m3.setValue(-4, 3, 1);
+        m3.setValue(17, 3, 2);
+        m3.setValue(0, 3, 3);
+        m3.print();
+        
+        Matrix m4 = new Matrix(4, 4);
+        Matrix mt;
+        m4.setValue(2, 1, 1);
+        m4.setValue(3, 1, 2);
+        m4.setValue(3, 1, 3);
+        m4.setValue(6, 1, 4);
+        m4.setValue(2, 2, 1);
+        m4.setValue(3, 2, 2);
+        m4.setValue(6, 2, 3);
+        m4.setValue(7, 2, 4);
+        m4.setValue(4, 3, 1);
+        m4.setValue(82, 3, 2);
+        m4.setValue(0, 3, 3);
+        m4.setValue(3, 3, 4);
+        m4.setValue(2, 4, 1);
+        m4.setValue(23, 4, 2);
+        m4.setValue(2, 4, 3);
+        m4.setValue(3, 4, 4);
+        mt = m4.getTraspose();
+        m4.print();
+
+        /*
+            Sample test for simetricAndAntisimetricDecomposition() method
+        */
+        Matrix m4 = new Matrix(4, 4);
+        ArrayList <Matrix> des;
+        m4.setValue(2, 1, 1);
+        m4.setValue(3, 1, 2);
+        m4.setValue(3, 1, 3);
+        m4.setValue(6, 1, 4);
+        m4.setValue(2, 2, 1);
+        m4.setValue(3, 2, 2);
+        m4.setValue(6, 2, 3);
+        m4.setValue(7, 2, 4);
+        m4.setValue(4, 3, 1);
+        m4.setValue(82, 3, 2);
+        m4.setValue(0, 3, 3);
+        m4.setValue(3, 3, 4);
+        m4.setValue(2, 4, 1);
+        m4.setValue(23, 4, 2);
+        m4.setValue(2, 4, 3);
+        m4.setValue(3, 4, 4);
+        m4.print();
+        System.out.println("");
+        des = LinearAlgebraApplications.simetricAndAntisimetricDecomposition(m4);
+        for(Matrix m : des){
+            m.print();
+            System.out.println("");
+        }
+        MatrixOperations.sum(des.get(0), des.get(1)).print();

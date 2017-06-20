@@ -69,6 +69,26 @@ public class Matrix {
     }
     
     @Override
+    public boolean equals(Object obj){
+        if(obj != null && obj instanceof Matrix){
+            Matrix compare = (Matrix) obj;
+            int rowLen = compare.getRowsLength();
+            int columnLen = compare.getColumnsLength();
+            
+            if(rowLen == this.rows && columnLen == this.columns){
+                for (int i = 0; i < rowLen; i++) {
+                    for (int j = 0; j < columnLen; j++) {
+                        if(compare.getMatrixValue(i, j) != this.matrix[i][j])
+                            return false;
+                    }
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+    
+    @Override
     public String toString(){
         String output = "";
         
