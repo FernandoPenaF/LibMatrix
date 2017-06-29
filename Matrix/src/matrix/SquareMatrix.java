@@ -19,6 +19,28 @@ public class SquareMatrix extends Matrix{
         return size;
     }
     
+    public void setToZeroMatrix(){
+        for (int i = 0; i < this.size; i++) {
+            for (int j = 0; j < this.size; j++) {
+                super.insertValue(0, i, j);
+            }
+        }
+    }
+    
+    public void setToIdentityMatrix(){
+        double delta;
+        
+        for (int i = 0; i < this.size; i++) {
+            for (int j = 0; j < this.size; j++) {
+                if(i == j)
+                    delta = 1;
+                else
+                    delta = 0;
+                super.insertValue(delta, i, j);
+            }
+        }
+    }
+    
     /*
     Dada una matriz, devuelve verdadero si esta es simétrica y falso en otro caso.
     Hacer

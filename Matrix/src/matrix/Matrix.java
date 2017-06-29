@@ -201,7 +201,8 @@ public class Matrix implements MatrixInterface{
                             return false;
                     }
                 }
-            }
+            }else
+                return false;
             return true;
         }
         return false;
@@ -213,7 +214,7 @@ public class Matrix implements MatrixInterface{
         
         for (int i = 0; i < this.matrix.length; i++) {
             for (int j = 0; j < this.matrix[i].length; j++) {
-                output += this.matrix[i][j] + " ";
+                output += this.matrix[i][j] + "  ";
             }
             output = output.substring(0, output.length() - 1); //Elimina espacio al final de cada renglón
             if(i < this.matrix.length - 1) //Aplica salto de línea excepto al último renglón.
