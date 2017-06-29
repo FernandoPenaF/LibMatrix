@@ -8,25 +8,22 @@ import java.util.ArrayList;
 public class LinearAlgebraApplications {
     
     /*
-    Si la matriz es cuadrada regresa una lista que contiene dos matrices,
+    Dada una matriz cuadrada, regresa una lista que contiene dos matrices,
     una simétrica y otra antisimétrica tales que
         matriz = simétrica + antisimétrica
-    utilizando el teorema
+    utilizando el teorema.
         A = (1/2) { (A + A(traspuesta)) + (A - A(traspuesta)) }
-        si A es cuadrada
     */
-    public static ArrayList<Matrix> simetricAndAntisimetricDecomposition(Matrix matrix){
-        if(MatrixOperations.isNxN(matrix)){
-            ArrayList<Matrix> descomposicion = new ArrayList();
-            Matrix traspose = matrix.getTraspose();
-            Matrix simetric = MatrixOperations.sum(matrix, traspose);
-            Matrix antisimetric = MatrixOperations.substraction(matrix, traspose);
-            
-            descomposicion.add(MatrixOperations.escalarMultiplication(simetric, (float) 0.5));
-            descomposicion.add(MatrixOperations.escalarMultiplication(antisimetric, (float) 0.5));
-            
-            return descomposicion;
-        }else
-            throw new ArithmeticException("Matrix is not square.");
+    public static ArrayList<SquareMatrix> simetricAndAntisimetricDecomposition(SquareMatrix matrix){
+        ArrayList<SquareMatrix> descomposicion = new ArrayList();
+        SquareMatrix traspose = matrix.getTraspose();
+        //Construcción de las matrices según el teorema.
+        SquareMatrix simetric = matrix.sum(traspose);
+        SquareMatrix antisimetric = matrix.substraction(traspose);
+
+        descomposicion.add(simetric.escalarMultiplication(0.5));
+        descomposicion.add(antisimetric.escalarMultiplication(0.5));
+        
+        return descomposicion;
     }
 }

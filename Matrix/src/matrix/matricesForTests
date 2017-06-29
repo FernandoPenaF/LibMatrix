@@ -1,14 +1,15 @@
         /*
             Sample matrices for any simple test.
         */
-        Matrix m2 = new Matrix(2, 2);
+        SquareMatrix m2 = new SquareMatrix(2);
         m2.setValue(6, 1, 1);
         m2.setValue(0, 1, 2);
         m2.setValue(0, 2, 1);
         m2.setValue(-14, 2, 2);
         m2.print();
+        System.out.println("");
         
-        Matrix m3 = new Matrix(3, 3);
+        SquareMatrix m3 = new SquareMatrix(3);
         m3.setValue(0, 1, 1);
         m3.setValue(3, 1, 2);
         m3.setValue(4, 1, 3);
@@ -20,7 +21,7 @@
         m3.setValue(0, 3, 3);
         m3.print();
         
-        Matrix m4 = new Matrix(4, 4);
+        SquareMatrix m4 = new SquareMatrix(4);
         Matrix mt;
         m4.setValue(2, 1, 1);
         m4.setValue(3, 1, 2);
@@ -44,29 +45,31 @@
         /*
             Sample test for simetricAndAntisimetricDecomposition() method
         */
-        Matrix m4 = new Matrix(4, 4);
-        ArrayList <Matrix> des;
-        m4.setValue(2, 1, 1);
-        m4.setValue(3, 1, 2);
-        m4.setValue(3, 1, 3);
-        m4.setValue(6, 1, 4);
-        m4.setValue(2, 2, 1);
-        m4.setValue(3, 2, 2);
-        m4.setValue(6, 2, 3);
-        m4.setValue(7, 2, 4);
-        m4.setValue(4, 3, 1);
-        m4.setValue(82, 3, 2);
-        m4.setValue(0, 3, 3);
-        m4.setValue(3, 3, 4);
-        m4.setValue(2, 4, 1);
-        m4.setValue(23, 4, 2);
-        m4.setValue(2, 4, 3);
-        m4.setValue(3, 4, 4);
-        m4.print();
+        SquareMatrix m5 = new SquareMatrix(4);
+        SquareMatrix mTest = new SquareMatrix(4);
+        ArrayList <SquareMatrix> des;
+        m5.setValue(2, 1, 1);
+        m5.setValue(3, 1, 2);
+        m5.setValue(3, 1, 3);
+        m5.setValue(6, 1, 4);
+        m5.setValue(2, 2, 1);
+        m5.setValue(3, 2, 2);
+        m5.setValue(6, 2, 3);
+        m5.setValue(7, 2, 4);
+        m5.setValue(4, 3, 1);
+        m5.setValue(82, 3, 2);
+        m5.setValue(0, 3, 3);
+        m5.setValue(3, 3, 4);
+        m5.setValue(2, 4, 1);
+        m5.setValue(23, 4, 2);
+        m5.setValue(2, 4, 3);
+        m5.setValue(3, 4, 4);
+        m5.print();
         System.out.println("");
-        des = LinearAlgebraApplications.simetricAndAntisimetricDecomposition(m4);
+        des = LinearAlgebraApplications.simetricAndAntisimetricDecomposition(m5);
         for(Matrix m : des){
             m.print();
             System.out.println("");
         }
-        MatrixOperations.sum(des.get(0), des.get(1)).print();
+        mTest = des.get(0).sum(des.get(1));
+        mTest.print();
